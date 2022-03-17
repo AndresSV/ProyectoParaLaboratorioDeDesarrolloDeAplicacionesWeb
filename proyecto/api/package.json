@@ -1,0 +1,19 @@
+{
+  "name": "reportme",
+  "version": "1.0.0",
+  "description": "Application to report news and stuff to a remote server",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AndresSV/LaboratorioDeDesarrolloDeAplicacionesWeb.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/AndresSV/LaboratorioDeDesarrolloDeAplicacionesWeb/issues"
+  },
+  "homepage": "https://github.com/AndresSV/LaboratorioDeDesarrolloDeAplicacionesWeb#readme"
+}
