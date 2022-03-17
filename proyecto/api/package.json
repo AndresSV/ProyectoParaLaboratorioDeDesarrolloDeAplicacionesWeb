@@ -15,5 +15,9 @@
   "bugs": {
     "url": "https://github.com/AndresSV/LaboratorioDeDesarrolloDeAplicacionesWeb/issues"
   },
-  "homepage": "https://github.com/AndresSV/LaboratorioDeDesarrolloDeAplicacionesWeb#readme"
+  "homepage": "https://github.com/AndresSV/LaboratorioDeDesarrolloDeAplicacionesWeb#readme",
+  "dependencies": {
+    "express": "^4.17.3",
+    "mysql": "^2.18.1"
+  }
 }
