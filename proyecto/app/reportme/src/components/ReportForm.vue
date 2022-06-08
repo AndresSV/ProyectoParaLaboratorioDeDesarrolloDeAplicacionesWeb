@@ -13,7 +13,7 @@ class="mx-auto"
 </v-toolbar>
     <v-form
         ref="form"
-        v-model="valid"
+        v-model="form"
         lazy-validation
         class="pa-4 pt-6"
     >
@@ -39,7 +39,6 @@ class="mx-auto"
         ></v-select>
 
   <v-file-input
-    :rules="rules"
     accept="image/png, image/jpeg, image/bmp"
     placeholder="Enviar fotografía"
     prepend-icon="mdi-camera"
@@ -59,14 +58,14 @@ class="mx-auto"
     </template></v-file-input>
 
         <v-btn
-        color="error"
-        class="mr-4"
-        @click="reset"
+          color="error"
+          class="mr-4"
+          @click="$refs.form.reset()"
         >
         Borrar Todo
         </v-btn>
-
         <v-btn
+          @click="submitReport()"
         >
         Enviar Reporte
         </v-btn>
@@ -81,12 +80,22 @@ class="mx-auto"
 export default ({
     name:'ReportForm',
     data: () => ({
-        items: [
+      form: false,
+      message: "",
+      select: undefined,
+      items: [
         'Urgente',
         'Sospechoso',
         'Avistamiento',
         'Soporte',
       ],
-    })
+    }),
+    methods: {
+      submitReport() {
+        this.$router.push({ path: '/reports' , replace: 'true'}).catch((error) => {
+          console.log(error)
+        });
+      }
+    }
 })
 </script>
