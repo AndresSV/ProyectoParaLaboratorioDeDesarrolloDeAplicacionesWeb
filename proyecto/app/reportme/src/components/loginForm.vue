@@ -33,13 +33,14 @@
                                     prepend-icon="mdi-lock"
                                     name="password"
                                     label="Password"
-                                    type="password"
+                                    type="current-password"
                                 ></v-text-field>
                                 </v-form>
                             </v-card-text>
                             <v-card-actions>
                                 <v-spacer></v-spacer>
                                 <v-btn color="primary" to="/">Login</v-btn>
+                                <v-btn color="primary" to="/signup">Sign Up</v-btn>
                             </v-card-actions>
                         </v-card>
                     </v-flex>
@@ -56,7 +57,6 @@
 export default {
     name: "loginSection",
     created() {
-        localStorage.clear();
     },
     data() {
         return {

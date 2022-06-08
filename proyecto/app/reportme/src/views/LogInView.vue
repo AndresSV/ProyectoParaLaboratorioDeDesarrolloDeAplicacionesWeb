@@ -12,5 +12,7 @@ export default ({
     components: {
         LoginSection,
     },
+    created() {
+    },
 });
 </script>
