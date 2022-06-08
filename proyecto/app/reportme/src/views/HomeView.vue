@@ -35,9 +35,11 @@
                   </v-col>
 
                   <v-btn
+                    v-if = "!getLogged"
                     class="align-self-end"
                     outlined
                     @click="redirectToLogin"
+                    
                   >
                     Log In
                   </v-btn>
@@ -75,6 +77,11 @@ export default {
       this.$router.push({ path: '/login' , replace: 'true'}).catch((error) => {
           console.log(error)
         });
+    }
+  },
+  computed: {
+    getLogged(){
+      return localStorage.logged;
     }
   }
 }
