@@ -78,13 +78,14 @@ app.post("/report/add", (req, res) => {
   data = req.body
   console.log(data)
 
-  let sql_query = "INSERT INTO reports VALUES(?,?,?,?,?,?);"
+  let sql_query = "INSERT INTO reports(reportid, userid, date, title, description, status) VALUES(DEFAULT,?,NOW(),?,?,?);"
+
+//  let sql_query = "INSERT INTO reports VALUES(default,?,?,?,?,?);"
   con.query(
     sql_query,
     [
-      data.reportid,
       data.userid,
-      data.date,
+      //data.date,
       data.title,
       data.description,
       data.status,
