@@ -78,6 +78,8 @@
 </template>
 
 <script>
+import axios from 'axios'
+
   export default ({
     name: "RegisterForm",
     data: () => ({
@@ -89,9 +91,24 @@
     }),
     methods: {
       signup(){
-        // axios wip if 200
-        this.$router.push({ path: '/' , replace: 'true'}).catch((error) => {
-          console.log(error)
+        let body = JSON.stringify(
+          { 
+            userid: this.username,
+            name : this.name, // date: new Date(),
+            lastname: this.lastname,
+            phone: this.phone,
+            privilege: 'User',
+        });
+        axios.post(this.$serverBaseURL + "user/add", body, {
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        }).then(response => {
+          if (response.status == 200) {
+            this.$router.push({ path: '/' , replace: 'true'}).catch((error) => {
+              console.log(error)
+            });
+          }
         });
       }
     }

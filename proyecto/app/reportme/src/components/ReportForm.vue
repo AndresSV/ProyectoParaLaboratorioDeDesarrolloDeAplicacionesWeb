@@ -18,44 +18,24 @@ class="mx-auto"
         class="pa-4 pt-6"
     >
         <v-text-field
-        v-model="message"
-        :counter="10"
-        label="Asunto"
+        v-model="title"
+        label="Titulo"
         required
         ></v-text-field>
 
         <v-text-field
-        v-model="message"
+        v-model="description"
         label="Descripción"
         required
         ></v-text-field>
 
-        <v-select
+        <!-- <v-select
         v-model="select"
         :items="items"
         :rules="[v => !!v || 'Tipo es necesario']"
         label="Tipo"
         required
-        ></v-select>
-
-  <v-file-input
-    accept="image/png, image/jpeg, image/bmp"
-    placeholder="Enviar fotografía"
-    prepend-icon="mdi-camera"
-    label="Fotografía"
-    show-size
-    multiple
-
-  >
-  <template v-slot:selection="{ text }">
-      <v-chip
-        small
-        label
-        color="primary"
-      >
-        {{ text }}
-      </v-chip>
-    </template></v-file-input>
+        ></v-select> -->
 
         <v-btn
           color="error"
@@ -76,24 +56,42 @@ class="mx-auto"
 </template>
 
 <script>
+import axios from 'axios';
 
 export default ({
     name:'ReportForm',
     data: () => ({
       form: false,
-      message: "",
+      title: "",
+      description: "",
       select: undefined,
-      items: [
-        'Urgente',
-        'Sospechoso',
-        'Avistamiento',
-        'Soporte',
-      ],
+      // items: [
+      //   'Urgente',
+      //   'Sospechoso',
+      //   'Avistamiento',
+      //   'Soporte',
+      // ],
     }),
     methods: {
       submitReport() {
-        this.$router.push({ path: '/reports' , replace: 'true'}).catch((error) => {
-          console.log(error)
+        let body = JSON.stringify(
+          { 
+            userid: localStorage.user,
+            // date: new Date(),
+            title: this.title,
+            description: this.description,
+            status: 0,
+        });
+        axios.post(this.$serverBaseURL + "report/add", body, {
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        }).then(response => {
+          if (response.status == 200) {
+            this.$router.push({ path: '/reports' , replace: 'true'}).catch((error) => {
+              console.log(error)
+            });
+          }
         });
       }
     }

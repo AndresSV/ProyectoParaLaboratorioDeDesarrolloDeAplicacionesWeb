@@ -2,7 +2,6 @@
     <v-container>
         <v-row no-gutters>
             <v-col cols="">
-                <v-col cols="2" id="logoCol"><img src="../assets/logo.png" id="Logo"></v-col>
                 <v-col cols="10" id="headerCol">
                     <span :class="[$vuetify.breakpoint.smAndDown ? 'display-3' : 'display-4']" 
                         class="font-weight-black">
@@ -12,6 +11,8 @@
                     </div>
                 </v-col>
             </v-col>
+        </v-row>
+        <v-row no-gutters>
             <v-col cols ="12">
                 <v-container fluid fill-height>
                     <v-layout align-center justify-center>
@@ -23,23 +24,25 @@
                             <v-card-text>
                                 <v-form>
                                 <v-text-field
+                                    v-model="username"
                                     prepend-icon="mdi-account"
-                                    name="login"
+                                    name="username"
                                     label="Login"
-                                    type="text"
+                                    type="username"
                                 ></v-text-field>
                                 <v-text-field
+                                    v-model="password"
                                     id="password"
                                     prepend-icon="mdi-lock"
                                     name="password"
                                     label="Password"
-                                    type="current-password"
+                                    type="password"
                                 ></v-text-field>
                                 </v-form>
                             </v-card-text>
                             <v-card-actions>
                                 <v-spacer></v-spacer>
-                                <v-btn color="primary" to="/">Login</v-btn>
+                                <v-btn color="primary" @click="loginReq()">Login</v-btn>
                                 <v-btn color="primary" to="/signup">Sign Up</v-btn>
                             </v-card-actions>
                         </v-card>
@@ -53,6 +56,7 @@
 
 
 <script>
+import axios from 'axios'
 
 export default {
     name: "loginSection",
@@ -60,17 +64,39 @@ export default {
     },
     data() {
         return {
-            usernameInput: '',
-            passwordInput: '',
-            isValidUser: false,
-
-            msg: {
-                usernameInput: '',
-                passwordInput: ''
-            }
+            username: '',
+            password: '',
         }
     },
-    computed: {
+    beforeMount() {
+        if (localStorage.user) {
+            this.redirectToHome();
+        }
+    },
+    methods: {
+        loginReq(){
+            const body = JSON.stringify({username:this.username, password:this.password});
+            axios.post(this.$serverBaseURL + 'login', body, {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            }).then(response => {
+                if(response.status == 200){
+                    console.log("WELCOME")
+                    localStorage.logged = true;
+                    localStorage.user = this.username;
+                    this.redirectToHome();
+                }
+            }).catch((error) => {
+                this.$emit('invalidCredentials', error);
+            });
+        },
+        redirectToHome() {
+            this.$router.push({ path: '/' , replace: 'true'}).catch((error) => {
+                console.log(error)
+            });
+            location.reload();
+        }
     }
 }
 </script>

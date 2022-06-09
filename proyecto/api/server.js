@@ -1,5 +1,6 @@
 var express = require("express")
 var mysql = require("mysql")
+var cors = require("cors");
 
 var app = express()
 
@@ -16,6 +17,7 @@ con.connect(function (err) {
 
 //Habilitando la aplicación para parsear json (POST request)
 app.use(express.json())
+app.use(cors())
 
 // USER END POINT
 // GET /users
@@ -76,13 +78,14 @@ app.post("/report/add", (req, res) => {
   data = req.body
   console.log(data)
 
-  let sql_query = "INSERT INTO reports VALUES(?,?,?,?,?,?);"
+  let sql_query = "INSERT INTO reports(reportid, userid, date, title, description, status) VALUES(DEFAULT,?,NOW(),?,?,?);"
+
+//  let sql_query = "INSERT INTO reports VALUES(default,?,?,?,?,?);"
   con.query(
     sql_query,
     [
-      data.reportid,
       data.userid,
-      data.date,
+      //data.date,
       data.title,
       data.description,
       data.status,
@@ -93,6 +96,25 @@ app.post("/report/add", (req, res) => {
     }
   )
   res.send("Report created!")
+})
+// GET USER login
+app.post("/login", (req, res) => {
+  data = req.body
+  let username = req.body.username;
+  let password = req.body.password;
+  let sql_query = `SELECT * FROM users WHERE userid = '${username}'`;
+  con.query(sql_query, async function (err, result) {
+    if (err) throw err
+    console.log(result)
+    if (password == result[0].phone){
+      res.statusCode = 200;
+      res.json(result)
+    }
+    else {
+      res.statusCode = 400;
+      res.send("Wrong Password")
+    }
+  });
 })
 
 // PORT

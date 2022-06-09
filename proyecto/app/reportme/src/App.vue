@@ -11,6 +11,13 @@
         <v-tab @click="redirectToHome()">Inicio</v-tab>
         <v-tab @click="redirectToNews()">Reportes</v-tab>
         <v-tab @click="redirectToForm()">Formulario</v-tab>
+        <v-tabs right>
+          <v-tab disabled>{{username}}</v-tab>
+          
+          <v-btn v-if = "getLogged" @click="logOut()">
+            Cerrar Sesión
+          </v-btn>
+        </v-tabs>
       </v-tabs>
     </v-app-bar>
     <v-main>
@@ -49,9 +56,24 @@ export default {
           console.log(error)
         });
     },
+    logOut() {
+      localStorage.clear();
+      location.reload();
+    }
   },
   data: () => ({
-    //
+    username : ''
   }),
+  mounted(){
+    if (localStorage.user != undefined) {
+      this.username = localStorage.user;
+    }
+  },
+  computed: {
+    getLogged(){
+      return localStorage.logged;
+    }
+  }
+
 };
 </script>
